@@ -20,11 +20,27 @@ The image chips are too big for git. They live on Borah, with a small sample on 
 |---|----------|--------------|--------|
 | 1 | `01_select_fires.ipynb` | Picks ~15 MTBS wildfires (2015–2023), 3 per region, plus the 2024 Wapiti Fire | `fires.csv`, `candidates.csv` |
 
-## Running a notebook in Colab
+## Setup
 
-1. Open the notebook in Colab (File → Open notebook → GitHub).
-2. In the first cell, set `PROJECT_ID` to your Google Cloud project with Earth Engine enabled.
-3. Run all. It asks you to log in to Earth Engine and to mount Google Drive.
+Each of us uses our own Google Cloud project with Earth Engine enabled. Put its ID in a file called `ee_project.txt` at the repo root (git ignores it):
+
+```bash
+echo "your-project-id" > ee_project.txt
+```
+
+**Locally (VS Code):**
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt ipykernel
+```
+
+Then open a notebook, pick the `.venv` kernel and Run All. The first time, it asks you to log in to Earth Engine.
+
+**Colab:** open the notebook from GitHub, set `PROJECT_ID` in the first cell and Run All. It also asks to mount Google Drive.
+
+Please clear the notebook outputs before committing, so diffs stay small.
 
 ## Data sources
 

@@ -4,6 +4,7 @@ __pycache__/
 .venv/
 venv/
 .env
+ee_project.txt
 
 # Notebooks
 .ipynb_checkpoints/
