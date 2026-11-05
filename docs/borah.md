@@ -1,10 +1,16 @@
 # Running on Borah
 
-Everything on Borah is run by hand from a normal SSH terminal. Big data goes in your scratch or project folder, not in your home folder (check the Research Computing docs for where that is). Below, `$CHIPS` and `$DATASET` are those folders, for example:
+Everything on Borah is run by hand from a normal SSH terminal. The data goes in our team's shared folder, so all three of us read the same copy. Each of us clones the repo and makes a `.venv` in our own account. Below, `$CHIPS` and `$DATASET` are folders inside the shared folder:
 
 ```bash
-export CHIPS=/path/to/scratch/cs497/hls_chips
-export DATASET=/path/to/scratch/cs497/dataset
+export CHIPS=<shared folder>/hls_chips
+export DATASET=<shared folder>/dataset
+```
+
+After copying or building anything there, give the group access:
+
+```bash
+chmod -R g+rwX "$CHIPS" "$DATASET"
 ```
 
 ## 1. Get the code (once)
@@ -46,7 +52,7 @@ export PATH=$HOME/bin:$PATH    # also add this line to ~/.bashrc
 
 ```bash
 rclone copy gdrive:cs497_hls_chips "$CHIPS" --progress --transfers 8
-ls "$CHIPS" | wc -l            # 148 .tif + gridmet_monthly.csv
+ls "$CHIPS" | wc -l            # one .tif per chip in data/chips_manifest.csv, plus gridmet_monthly.csv
 ```
 
 ## 3. Build the dataset (step 3)
