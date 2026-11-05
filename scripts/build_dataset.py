@@ -1,7 +1,7 @@
 """Turn the HLS chips from notebook 02 into training-ready files.
 
-For every chip it writes one compressed .npz with the monthly bands and the recovery
-targets, plus three tables:
+For every chip it writes one folder of .npy arrays with the monthly bands and the recovery
+targets (uncompressed, so training can read just the months it needs), plus three tables:
 
   chips.csv        one row per chip: fire, region, vegetation, split, burn and recovery summary
   chip_months.csv  one row per chip and month: clear share, mean NBR / recovery, weather
@@ -10,7 +10,7 @@ targets, plus three tables:
 Usage (Borah or Colab):
   python scripts/build_dataset.py --chips /path/to/cs497_hls_chips --out /path/to/dataset
 
-What goes in each .npz (T = number of months, H = W = 224):
+What goes in each chip folder (T = number of months, H = W = 224), one <name>.npy per array:
   refl      (T, 6, H, W) int16    BLUE, GREEN, RED, NIR, SWIR1, SWIR2, reflectance x 10,000, -9999 = no data
   n         (T, H, W)    uint8    clear looks in the monthly composite
   valid     (T, H, W)    bool     the pixel has a clear value that month
@@ -25,6 +25,7 @@ What goes in each .npz (T = number of months, H = W = 224):
   ytr       (H, W)       float16  years to recovery: first summer with NBR >= 80% of NBR_pre,
                                   counted from the fire year; NaN = not recovered yet
   months    (T,)         str      "YYYY-MM"
+  ignition  ()           str      "YYYY-MM"
 """
 import argparse
 import json
@@ -150,14 +151,17 @@ def process_chip(job):
         if pd.Period(f"{yr}-{max(SEASON):02d}", freq="M") <= last_month:
             observed_years = yr - ig.year
 
-    np.savez_compressed(
-        Path(out_dir) / f"{chip['chip_id']}.npz",
+    arrays = dict(
         refl=refl.astype(np.int16), n=n.clip(0, 255).astype(np.uint8), valid=valid,
         static=static.astype(np.int16), nbr=nbr.astype(np.float16), ndvi=ndvi.astype(np.float16),
         nbr_pre=nbr_pre, nbr_post=nbr_post, dnbr=dnbr, burned=burned,
         rec=rec.astype(np.float16), ytr=ytr.astype(np.float16),
-        months=np.array([str(p) for p in months]), ignition=str(ig),
+        months=np.array([str(p) for p in months]), ignition=np.array(str(ig)),
     )
+    chip_out = Path(out_dir) / chip["chip_id"]
+    chip_out.mkdir(exist_ok=True)
+    for name, arr in arrays.items():
+        np.save(chip_out / f"{name}.npy", arr)
 
     unburned = (~inside)[None] & valid
     rows = []
@@ -217,6 +221,8 @@ def main():
     ap.add_argument("--weather", type=Path, default=None,
                     help="gridmet_monthly.csv (default: look for it in --chips)")
     ap.add_argument("--workers", type=int, default=4)
+    ap.add_argument("--max-per-fire", type=int, default=None,
+                    help="only use this many chips per fire (quick tests)")
     args = ap.parse_args()
 
     manifest = pd.read_csv(args.manifest)
@@ -226,9 +232,18 @@ def main():
     if missing:
         raise SystemExit(f"No ignition date for: {sorted(missing)}")
 
+    # Only chips whose GeoTIFFs are there (exports may still be running)
+    have = {p.stem.rsplit("_p", 1)[0] if p.stem.rsplit("_p", 1)[-1].isdigit() else p.stem
+            for p in args.chips.glob("*.tif")}
+    found = manifest[manifest["chip_id"].isin(have)]
+    print(f"{len(found)} of {len(manifest)} chips found in {args.chips}")
+    if args.max_per_fire:
+        found = found.groupby("mtbs_id", group_keys=False).head(args.max_per_fire)
+        print(f"Using {len(found)} chips (at most {args.max_per_fire} per fire)")
+
     args.out.mkdir(parents=True, exist_ok=True)
     jobs = [(chip, ignitions[chip["mtbs_id"]], str(args.chips), str(args.out))
-            for chip in manifest.to_dict("records")]
+            for chip in found.to_dict("records")]
     summaries, month_rows = [], []
     with ProcessPoolExecutor(max_workers=args.workers) as pool:
         for i, (summary, rows) in enumerate(pool.map(process_chip, jobs), 1):
@@ -240,7 +255,7 @@ def main():
     roles = manifest.drop_duplicates("mtbs_id")[["mtbs_id", "veg_type", "role"]]
     split = fire_splits(roles, SEED)
 
-    chips = manifest.merge(pd.DataFrame(summaries), on="chip_id", how="left")
+    chips = found.merge(pd.DataFrame(summaries), on="chip_id", how="left")
     chips["split_fire"] = chips["mtbs_id"].map(split)
     chips.to_csv(args.out / "chips.csv", index=False)
 

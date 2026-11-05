@@ -22,7 +22,7 @@ module avail python            # pick a Python 3.10+ module
 module load <that module>
 python3 -m venv .venv
 source .venv/bin/activate
-pip install numpy pandas rasterio
+pip install -r requirements-train.txt
 ```
 
 Later, `git pull` gets the new scripts.
@@ -66,7 +66,7 @@ squeue -u $USER                # is it running?
 tail -f logs/build_dataset-*.out
 ```
 
-When it ends, `$DATASET` has one `.npz` per chip plus `chips.csv`, `chip_months.csv` and `splits.json` (see the top of `scripts/build_dataset.py` for what's inside).
+When it ends, `$DATASET` has one folder of `.npy` arrays per chip plus `chips.csv`, `chip_months.csv` and `splits.json` (see the top of `scripts/build_dataset.py` for what's inside).
 
 ## Colab instead
 
@@ -80,3 +80,16 @@ drive.mount("/content/drive")
 !pip install -q rasterio
 !python scripts/build_dataset.py --chips /content/drive/MyDrive/cs497_hls_chips --out /content/drive/MyDrive/cs497_dataset --workers 2
 ```
+
+## 4. Train
+
+```bash
+cd Post_Wildfire_Vegetation
+git pull
+source .venv/bin/activate
+export DATASET=<shared folder>/dataset
+sbatch scripts/train.sbatch frozen_300m --backbone prithvi_eo_v2_300_tl
+```
+
+Each run writes `runs/<name>/`: `history.csv` (loss per epoch), `val_metrics.csv` (error by method and vegetation type, compared with persistence), `best_head.pt` and `config.json`. See `python src/recovery/train.py --help` for all options.
+

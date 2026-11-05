@@ -28,3 +28,7 @@ checkpoints/
 # OS
 .DS_Store
 .vscode/
+
+# Training outputs
+runs/
+logs/

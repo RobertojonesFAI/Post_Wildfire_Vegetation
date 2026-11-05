@@ -9,6 +9,7 @@ We fine-tune Prithvi-EO-2.0 on HLS time series to track and forecast vegetation 
 
 ```
 notebooks/   step-by-step notebooks (run in order)
+src/         the model code (recovery package)
 scripts/     command-line steps that run on Borah or Colab
 docs/        how-tos (docs/borah.md: running things on Borah)
 data/fires/  fires.csv, candidates.csv and the Wapiti perimeter (small tables only, no imagery)
@@ -22,7 +23,9 @@ The image chips are too big for git. They live in Google Drive (`cs497_hls_chips
 |---|----------|--------------|--------|
 | 1 | `01_select_fires.ipynb` | Picks ~15 MTBS wildfires (2015–2023), 3 per region, plus the 2024 Wapiti Fire | `fires.csv`, `candidates.csv` |
 | 2 | `02_export_hls.ipynb` | Cuts each fire into 224 × 224 chips and exports monthly HLS composites (2 years before the fire → last month), static layers and monthly gridMET weather to Google Drive | `chips_manifest.csv`, GeoTIFFs + `gridmet_monthly.csv` in Drive (`cs497_hls_chips`) |
-| 3 | `scripts/build_dataset.py` | Reads the chips and computes NBR/NDVI, burned pixels, recovery % and years to recovery; makes the fire / time / region splits. Run on Borah (`docs/borah.md`) or Colab | one `.npz` per chip, `chips.csv`, `chip_months.csv`, `splits.json` |
+| 3 | `scripts/build_dataset.py` | Reads the chips and computes NBR/NDVI, burned pixels, recovery % and years to recovery; makes the fire / time / region splits. Run on Borah (`docs/borah.md`) or Colab | one folder of `.npy` arrays per chip, `chips.csv`, `chip_months.csv`, `splits.json` |
+| 4 | `notebooks/03_quick_train.ipynb` | Quick test in Colab: mini dataset, persistence and gradient boosting baselines, Prithvi-EO-2.0 100M with a frozen encoder, ground-truth table and first figures | results in Drive (`cs497_results/quick`) |
+| 5 | `src/recovery/` + `scripts/train.sbatch` | The model code (data, baselines, Prithvi model, metrics, training) used in Colab and on Borah | `runs/<name>/` |
 
 ## Selected fires
 
