@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Data (the full dataset lives on Borah / Drive, not in git)
+data/raw/
+data/chips/
+*.tif
+*.tiff
+*.nc
+*.npz
+*.zarr/
+
+# Models
+checkpoints/
+*.ckpt
+*.pt
+*.pth
+
+# OS
+.DS_Store
