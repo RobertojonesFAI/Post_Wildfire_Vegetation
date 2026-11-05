@@ -19,6 +19,7 @@ The image chips are too big for git. They live on Borah, with a small sample on 
 | # | Notebook | What it does | Output |
 |---|----------|--------------|--------|
 | 1 | `01_select_fires.ipynb` | Picks ~15 MTBS wildfires (2015–2023), 3 per region, plus the 2024 Wapiti Fire | `fires.csv`, `candidates.csv` |
+| 2 | `02_export_hls.ipynb` | Cuts each fire into 224 × 224 chips and exports monthly HLS composites (2 years before the fire → last month), static layers and monthly gridMET weather to Google Drive | `chips_manifest.csv`, GeoTIFFs + `gridmet_monthly.csv` in Drive (`cs497_hls_chips`) |
 
 ## Selected fires
 
@@ -53,6 +54,7 @@ Please clear the notebook outputs before committing, so diffs stay small.
 - MTBS burned area boundaries and burn severity mosaics (USFS/USGS)
 - HLS v2.0, Landsat 30 m (HLSL30) and Sentinel-2 30 m (HLSS30) (NASA)
 - NLCD 2019 release land cover (USGS)
-- gridMET (weather) and USGS 3DEP (terrain), added in step 2
+- gridMET (weather) and SRTM (terrain), added in step 2
+- Wapiti Fire perimeter from its RECOVER data package (final perimeter, Oct 19, 2024)
 
 All of them are read through Google Earth Engine.
