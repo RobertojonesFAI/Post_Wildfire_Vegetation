@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_3c1e21487edc4943ceccab2f5bc773b7 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_3c1e21487edc4943ceccab2f5bc773b7" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_3c1e21487edc4943ceccab2f5bc773b7 = L.map(
+                "map_3c1e21487edc4943ceccab2f5bc773b7",
+                {
+                    center: [40.0, -113.0],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 5,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_a05f9d564365cec118ec9fdc5971b8fb = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+                {
+  "minZoom": 0,
+  "maxZoom": 16,
+  "maxNativeZoom": 16,
+  "noWrap": false,
+  "attribution": "Tiles \u0026copy; Esri \u0026mdash; Esri, DeLorme, NAVTEQ",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_a05f9d564365cec118ec9fdc5971b8fb.addTo(map_3c1e21487edc4943ceccab2f5bc773b7);
+        
+    
+            var circle_marker_d976b607159229076743a70da6e4e3de = L.circleMarker(
+                [41.12, -122.983],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_3c1e21487edc4943ceccab2f5bc773b7);
+        
+    
+            circle_marker_d976b607159229076743a70da6e4e3de.bindTooltip(
+                `<div>
+                     HAYPRESS (2021) · forest · moderate · 204,549 ac
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_71046934000ee8d5d2f5c9b7ac6bf9a7 = L.circleMarker(
+                [36.073, -121.468],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_3c1e21487edc4943ceccab2f5bc773b7);
+        
+    
+            circle_marker_71046934000ee8d5d2f5c9b7ac6bf9a7.bindTooltip(
+                `<div>
+                     DOLAN (2020) · shrubland · high · 124,382 ac
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_db19038a8d0393214f7affee0c9b35fb = L.circleMarker(
+                [34.147, -116.762],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_3c1e21487edc4943ceccab2f5bc773b7);
+        
+    
+            circle_marker_db19038a8d0393214f7affee0c9b35fb.bindTooltip(
+                `<div>
+                     LAKE (2015) · forest · moderate · 30,421 ac
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_34d47efb88203c8c21cdaa8ef55b24b3 = L.circleMarker(
+                [44.159, -122.496],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_3c1e21487edc4943ceccab2f5bc773b7);
+        
+    
+            circle_marker_34d47efb88203c8c21cdaa8ef55b24b3.bindTooltip(
+                `<div>
+                     HOLIDAY FARM (2020) · forest · high · 174,390 ac
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_aed99ad7dc2ddbda7f7f53593aa66656 = L.circleMarker(
+                [44.592, -117.728],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_3c1e21487edc4943ceccab2f5bc773b7);
+        
+    
+            circle_marker_aed99ad7dc2ddbda7f7f53593aa66656.bindTooltip(
+                `<div>
+                     CORNET-WINDY RIDGE (2015) · shrubland · moderate · 102,553 ac
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0d55c4009e0b32ec7966d06d5c7ca518 = L.circleMarker(
+                [42.752, -124.326],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_3c1e21487edc4943ceccab2f5bc773b7);
+        
+    
+            circle_marker_0d55c4009e0b32ec7966d06d5c7ca518.bindTooltip(
+                `<div>
+                     ANVIL (2023) · forest · low · 22,261 ac
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f4d7fa1d0420540055dc645b0fd29627 = L.circleMarker(
+                [42.099, -105.301],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_3c1e21487edc4943ceccab2f5bc773b7);
+        
+    
+            circle_marker_f4d7fa1d0420540055dc645b0fd29627.bindTooltip(
+                `<div>
+                     BRITANIA MOUNTAIN (2018) · forest · moderate · 23,701 ac
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_11680e899d0444e665be534394e78fa3 = L.circleMarker(
+                [48.231, -109.576],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_3c1e21487edc4943ceccab2f5bc773b7);
+        
+    
+            circle_marker_11680e899d0444e665be534394e78fa3.bindTooltip(
+                `<div>
+                     EAST FORK (2017) · shrubland · high · 21,165 ac
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b9b7763316f9ebc83272914b666b9a33 = L.circleMarker(
+                [45.31, -114.154],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_3c1e21487edc4943ceccab2f5bc773b7);
+        
+    
+            circle_marker_b9b7763316f9ebc83272914b666b9a33.bindTooltip(
+                `<div>
+                     MOOSE (2022) · forest · low · 142,221 ac
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b57395a2ffd7194aff9e6e4c07090c34 = L.circleMarker(
+                [32.887, -110.21],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_3c1e21487edc4943ceccab2f5bc773b7);
+        
+    
+            circle_marker_b57395a2ffd7194aff9e6e4c07090c34.bindTooltip(
+                `<div>
+                     PINNACLE (2021) · shrubland · low · 35,281 ac
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a1f0ac3f86bdb25bbddf9e9636b27ced = L.circleMarker(
+                [36.277, -104.973],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_3c1e21487edc4943ceccab2f5bc773b7);
+        
+    
+            circle_marker_a1f0ac3f86bdb25bbddf9e9636b27ced.bindTooltip(
+                `<div>
+                     COOKS PEAK (2022) · forest · moderate · 61,195 ac
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a33f3969fc1a9e1c47805f6dec7907d1 = L.circleMarker(
+                [33.441, -109.29],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_3c1e21487edc4943ceccab2f5bc773b7);
+        
+    
+            circle_marker_a33f3969fc1a9e1c47805f6dec7907d1.bindTooltip(
+                `<div>
+                     BRINGHAM (2020) · forest · moderate · 23,134 ac
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b3db6b012c8353d4342838fa5ddd27b9 = L.circleMarker(
+                [39.926, -111.31],
+                {"bubblingMouseEvents": true, "color": "purple", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "purple", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_3c1e21487edc4943ceccab2f5bc773b7);
+        
+    
+            circle_marker_b3db6b012c8353d4342838fa5ddd27b9.bindTooltip(
+                `<div>
+                     COAL HOLLOW (2018) · forest · moderate · 30,239 ac
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_6510ef399765006ac73154214a9c0cb0 = L.circleMarker(
+                [41.623, -114.034],
+                {"bubblingMouseEvents": true, "color": "purple", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "purple", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_3c1e21487edc4943ceccab2f5bc773b7);
+        
+    
+            circle_marker_6510ef399765006ac73154214a9c0cb0.bindTooltip(
+                `<div>
+                     GOOSE CREEK (2018) · shrubland · low · 131,432 ac
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_442ab5d93e3ce3d4237fc2c3e21d3282 = L.circleMarker(
+                [37.788, -112.693],
+                {"bubblingMouseEvents": true, "color": "purple", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "purple", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_3c1e21487edc4943ceccab2f5bc773b7);
+        
+    
+            circle_marker_442ab5d93e3ce3d4237fc2c3e21d3282.bindTooltip(
+                `<div>
+                     BRIANHEAD (2017) · forest · high · 74,276 ac
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+</script>
+</html>

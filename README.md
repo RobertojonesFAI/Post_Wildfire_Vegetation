@@ -20,6 +20,12 @@ The image chips are too big for git. They live on Borah, with a small sample on 
 |---|----------|--------------|--------|
 | 1 | `01_select_fires.ipynb` | Picks ~15 MTBS wildfires (2015–2023), 3 per region, plus the 2024 Wapiti Fire | `fires.csv`, `candidates.csv` |
 
+## Selected fires
+
+![Selected fires](figures/fires_map.png)
+
+The interactive version is `figures/fires_map.html`.
+
 ## Setup
 
 Each of us uses our own Google Cloud project with Earth Engine enabled. Put its ID in a file called `ee_project.txt` at the repo root (git ignores it):

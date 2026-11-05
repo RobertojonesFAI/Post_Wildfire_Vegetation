@@ -26,3 +26,4 @@ checkpoints/
 
 # OS
 .DS_Store
+.vscode/
