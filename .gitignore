@@ -17,6 +17,7 @@ data/chips/
 *.nc
 *.npz
 *.zarr/
+*.zip
 
 # Models
 checkpoints/
