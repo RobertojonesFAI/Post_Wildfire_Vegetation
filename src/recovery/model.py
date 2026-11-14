@@ -51,10 +51,11 @@ class PrithviRecovery(nn.Module):
         return self
 
     def _embed_dim(self):
-        out = getattr(self.encoder, "out_channels", None)
-        if out:
-            return out[-1]
-        return getattr(self.encoder, "embed_dim")
+        """Channels of one frame's tokens (out_channels in TerraTorch already counts all frames)."""
+        dim = getattr(self.encoder, "embed_dim", None)
+        if dim:
+            return dim
+        return self.encoder.out_channels[-1] // self.num_frames
 
     def encode(self, x, temporal_coords=None, location_coords=None):
         if self.use_coords:
