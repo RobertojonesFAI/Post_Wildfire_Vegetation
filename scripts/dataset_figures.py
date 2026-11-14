@@ -40,8 +40,9 @@ def pick_chip(chips, months, veg):
     clear = months[months["clear_frac"] >= 0.5].groupby("chip_id").size()
     c["clear_months"] = c["chip_id"].map(clear).fillna(0)
     c["score"] = c["burned_frac"].fillna(0) + c["observed_years"].fillna(0) / 6 + c["clear_months"] / 120 \
-        + c["dnbr_burned"].fillna(0)
-    return c.sort_values("score", ascending=False).iloc[0]
+        + 2 * c["dnbr_burned"].fillna(0)
+    vegetated = c[c["nbr_pre_burned"] > 0.1]          # a visible drop needs some vegetation before the fire
+    return (vegetated if len(vegetated) else c).sort_values("score", ascending=False).iloc[0]
 
 
 def trajectories(chips, months, out):
@@ -59,7 +60,7 @@ def trajectories(chips, months, out):
         ax.axvline(0, color="k", lw=0.6)
         if np.isfinite(chip["nbr_pre_burned"]):
             ax.axhline(0.8 * chip["nbr_pre_burned"], color=COLORS[veg], ls="--", lw=0.6, label="80% of pre-fire")
-        ax.set_title(f"{veg}: {str(chip['name']).title()} ({int(chip['year'])})")
+        ax.set_title(f"{veg}\n{str(chip['name']).title()} fire ({int(chip['year'])})", fontsize=7)
         ax.set_xlabel("years since fire")
         ax.grid(alpha=0.3)
     axes[0].set_ylabel("NBR (median of pixels)")
@@ -67,7 +68,7 @@ def trajectories(chips, months, out):
                plt.Line2D([], [], color="0.6", lw=0.6, marker=".", label="unburned pixels"),
                plt.Line2D([], [], color="0.4", lw=0.6, ls="--", label="80% of pre-fire NBR"),
                plt.Line2D([], [], color="k", lw=0.6, label="ignition")]
-    fig.legend(handles=handles, loc="lower center", ncol=4, frameon=False, bbox_to_anchor=(0.5, -0.12))
+    fig.legend(handles=handles, loc="lower center", ncol=4, frameon=False, bbox_to_anchor=(0.5, -0.2))
     save(fig, out, "trajectories")
 
 
@@ -75,6 +76,7 @@ def recovery_curves(chips, months, out):
     m = months.merge(chips[["chip_id", "veg_type", "ignition"]], on="chip_id")
     m = m[(m["months_since_fire"] >= 0) & m["month"].str[5:7].isin(SUMMER) & (m["burned_clear_frac"] >= 0.3)]
     m["years"] = m["month"].str[:4].astype(int) - m["ignition"].str[:4].astype(int)
+    m = m[m["years"] >= 1]                            # the fire-year summer is mostly the fire itself
     per_chip = m.groupby(["veg_type", "chip_id", "years"])["rec_burned"].median().reset_index()
     fig, ax = plt.subplots(figsize=(3.3, 2.2))
     for veg in VEG:
@@ -88,8 +90,8 @@ def recovery_curves(chips, months, out):
                 label=f"{veg} ({chips[chips['veg_type'] == veg]['mtbs_id'].nunique()} fires)")
         ax.fill_between(q.index, q[0.25], q[0.75], color=COLORS[veg], alpha=0.15, lw=0)
     ax.axhline(80, color="k", ls="--", lw=0.6)
-    ax.text(0.05, 82, "80% recovered", fontsize=6)
-    ax.set_xlabel("summers since fire (0 = fire year)")
+    ax.text(1.05, 82, "80% recovered", fontsize=6)
+    ax.set_xlabel("summers after the fire year")
     ax.set_ylabel("recovery % (median, IQR)")
     ax.legend(frameon=False, loc="lower right")
     ax.grid(alpha=0.3)
@@ -97,10 +99,11 @@ def recovery_curves(chips, months, out):
 
 
 def rgb(refl):
-    """True color from (6, H, W) reflectance x 10,000."""
-    img = np.stack([refl[2], refl[1], refl[0]], -1).astype(np.float32) / 10000
+    """True color from (6, H, W) reflectance x 10,000, 2-98% stretch."""
+    img = np.stack([refl[2], refl[1], refl[0]], -1).astype(np.float32)
     img[refl[0] == -9999] = np.nan
-    return np.clip(np.nan_to_num(img * 3.5) ** 0.8, 0, 1)
+    lo, hi = np.nanpercentile(img, 2), np.nanpercentile(img, 98)
+    return np.nan_to_num(np.clip((img - lo) / max(hi - lo, 1), 0, 1), nan=1.0)
 
 
 def chip_example(chips, months, dataset, out):
@@ -149,10 +152,11 @@ def chip_example(chips, months, dataset, out):
 
 def dataset_table(chips, out):
     c = chips[chips["status"] == "ok"].copy()
+    c["veg_type"] = c["veg_type"].fillna("Wapiti (mixed)")
     c["split_fire"] = c["split_fire"].fillna("case study").replace({"case_study": "case study"})
     order = ["train", "val", "test", "case study"]
     rows = []
-    for veg in VEG + ["mixed"]:
+    for veg in VEG + ["mixed", "Wapiti (mixed)"]:
         g = c[c["veg_type"] == veg]
         cells = []
         for s in order:
